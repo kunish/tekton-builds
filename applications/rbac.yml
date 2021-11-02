@@ -6,4 +6,4 @@ metadata:
 
 secrets:
   - name: github-basic-auth-secret
-  - name: docker-registry-basic-aut-secret
+  - name: docker-registry-basic-auth-secret
