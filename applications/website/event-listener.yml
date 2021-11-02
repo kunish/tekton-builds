@@ -21,7 +21,7 @@ spec:
             - name: filter
               value: "body.action in ['open', 'synchronize', 'reopened']"
 
-            - name: "filter"
+            - name: filter
               value: "body.pull_request.merged == false"
 
       bindings:
