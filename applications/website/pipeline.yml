@@ -13,7 +13,6 @@ spec:
 
   workspaces:
     - name: website
-    - name: gitcredentials
     - name: dockerconfig
 
   tasks:
