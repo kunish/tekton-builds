@@ -38,3 +38,6 @@ spec:
                     storage: 100Mi
                 accessModes:
                   - ReadWriteOnce
+          - name: dockerconfig
+            secret:
+              secretName: github-basic-auth-secret

@@ -13,6 +13,7 @@ spec:
 
   workspaces:
     - name: website
+    - name: dockerconfig
 
   tasks:
     - name: git-clone
@@ -31,6 +32,8 @@ spec:
       workspaces:
         - name: source
           workspace: website
+        - name: dockerconfig
+          workspace: dockerconfig
       params:
         - name: IMAGE
           value: kunish/website
