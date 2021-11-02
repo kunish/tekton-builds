@@ -18,6 +18,7 @@ spec:
         generateName: website-pipeline-run-
         namespace: tekton-builds
       spec:
+        serviceAccountName: tekton-build-bot
         pipelineRef:
           name: website-pipeline
         params:
