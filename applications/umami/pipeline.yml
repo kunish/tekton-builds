@@ -1,0 +1,40 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: umami-pipeline
+  namespace: tekton-builds
+
+spec:
+  workspaces:
+    - name: umami
+    - name: github-ssh-credentials
+    - name: regcred
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: git@github.com:mikecao/umami.git
+      workspaces:
+        - name: output
+          workspace: umami
+        - name: ssh-directory
+          workspace: github-ssh-credentials
+
+    - name: kaniko-build
+      taskRef:
+        name: kaniko
+      params:
+        - name: IMAGE
+          value: kunish/umami
+        - name: EXTRA_ARGS
+          value:
+            - "--build-arg=DATABASE_TYPE=mysql"
+      workspaces:
+        - name: source
+          workspace: umami
+        - name: dockerconfig
+          workspace: regcred
+      runAfter:
+        - git-clone
