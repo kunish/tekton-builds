@@ -27,7 +27,7 @@ spec:
         name: kaniko
       params:
         - name: IMAGE
-          value: kunish/umami
+          value: ghcr.io/techprober/umami
         - name: EXTRA_ARGS
           value:
             - "--build-arg=DATABASE_TYPE=mysql"
