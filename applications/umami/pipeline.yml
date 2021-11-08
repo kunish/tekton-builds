@@ -26,6 +26,8 @@ spec:
       taskRef:
         name: kaniko
       params:
+        - name: BUILDER_IMAGE
+          value: gcr.io/kaniko-project/executor
         - name: IMAGE
           value: ghcr.io/techprober/umami
         - name: EXTRA_ARGS
