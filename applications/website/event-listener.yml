@@ -5,6 +5,8 @@ metadata:
   namespace: tekton-builds
 
 spec:
+  serviceAccountName: tekton-triggers-sa
+
   triggers:
     - name: webhook-listener
       interceptors:

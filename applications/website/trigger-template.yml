@@ -7,9 +7,6 @@ metadata:
 spec:
   params:
     - name: git-repo-url
-    - name: git-api-url
-    - name: git-branch
-    - name: git-revision
 
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
@@ -18,15 +15,13 @@ spec:
         generateName: website-pipeline-run-
         namespace: tekton-builds
       spec:
+        serviceAccountName: tekton-triggers-sa
+
         pipelineRef:
           name: website-pipeline
         params:
           - name: git-repo-url
             value: $(tt.params.git-repo-url)
-          - name: git-api-url
-            value: $(tt.params.git-api-url)
-          - name: git-revision
-            value: $(tt.params.git-revision)
 
         workspaces:
           - name: website
@@ -37,6 +32,9 @@ spec:
                     storage: 100Mi
                 accessModes:
                   - ReadWriteOnce
-          - name: dockerconfig
+          - name: github-ssh-credentials
             secret:
-              secretName: github-basic-auth-secret
+              secretName: github-ssh-credentials
+          - name: regcred
+            secret:
+              secretName: regcred

@@ -8,12 +8,10 @@ spec:
   params:
     - name: git-repo-url
 
-    - name: container_image
-      default: website
-
   workspaces:
     - name: website
-    - name: dockerconfig
+    - name: github-ssh-credentials
+    - name: regcred
 
   tasks:
     - name: git-clone
@@ -22,6 +20,8 @@ spec:
       workspaces:
         - name: output
           workspace: website
+        - name: ssh-directory
+          workspace: github-ssh-credentials
       params:
         - name: url
           value: $(params.git-repo-url)
@@ -33,9 +33,11 @@ spec:
         - name: source
           workspace: website
         - name: dockerconfig
-          workspace: dockerconfig
+          workspace: regcred
       params:
+        - name: BUILDER_IMAGE
+          value: gcr.io/kaniko-project/executor
         - name: IMAGE
-          value: kunish/website
+          value: ghcr.io/kunish/website
       runAfter:
         - git-clone
