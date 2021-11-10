@@ -10,13 +10,15 @@ spec:
   triggers:
     - name: webhook-listener
       interceptors:
-        - ref:
+        - name: only triggers on push event
+          ref:
             name: github
           params:
             - name: eventTypes
               value: [push]
 
-        - ref:
+        - name: only triggers on environment branches
+          ref:
             name: cel
           params:
             - name: filter
