@@ -14,16 +14,13 @@ spec:
             name: github
           params:
             - name: eventTypes
-              value: [pull_request]
+              value: [push]
 
         - ref:
             name: cel
           params:
             - name: filter
-              value: "body.action in ['open', 'synchronize', 'reopened']"
-
-            - name: filter
-              value: "body.pull_request.merged == false"
+              value: "body.ref == 'refs/heads/main'"
 
       bindings:
         - ref: website-trigger-binding

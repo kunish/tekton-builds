@@ -1,0 +1,37 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: semantic-release
+  namespace: tekton-builds
+
+spec:
+  params:
+    - name: github-token-secret
+      default: github-token-secret
+      description: name of the secret holding the github-token
+    - name: github-token-secret-key
+      default: GH_TOKEN
+      description: name of the secret key holding the GH_TOKEN value
+
+  workspaces:
+    - name: source
+      description: name of the workspace holds the source code to release
+
+  results:
+    - name: version
+      description: release version produced by semantic-release
+
+  steps:
+    - name: semantic-release
+      image: node:alpine
+      workingDir: $(workspaces.source.path)
+      env:
+        - name: GH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: $(params.github-token-secret)
+              key: $(params.github-token-secret-key)
+      script: |
+        yarn install
+        yarn semantic-release
+        node -e 'process.stdout.write(require("./package.json").version)' | tee $(results.version)

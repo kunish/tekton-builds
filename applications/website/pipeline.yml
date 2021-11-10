@@ -26,6 +26,20 @@ spec:
         - name: url
           value: $(params.git-repo-url)
 
+    - name: semantic-release
+      taskRef:
+        name: semantic-release
+      params:
+        - name: github-token-secret
+          value: github-token-secret
+        - name: github-token-secret-key
+          value: GH_TOKEN
+      workspaces:
+        - name: source
+          workspace: website
+      runAfter:
+        - git-clone
+
     - name: build-container-image
       taskRef:
         name: kaniko
@@ -38,6 +52,6 @@ spec:
         - name: BUILDER_IMAGE
           value: gcr.io/kaniko-project/executor
         - name: IMAGE
-          value: ghcr.io/kunish/website
+          value: ghcr.io/kunish/website:$(tasks.semantic-release.results.version)
       runAfter:
-        - git-clone
+        - semantic-release
