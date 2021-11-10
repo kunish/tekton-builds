@@ -23,6 +23,8 @@ spec:
           params:
             - name: filter
               value: "body.ref in ['refs/heads/main', 'refs/heads/develop']"
+            - name: filter
+              value: "!body.head_commit.message.contains('[skip ci]')"
             - name: overlays
               value:
                 - key: git-branch
