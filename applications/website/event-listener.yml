@@ -20,7 +20,7 @@ spec:
             name: cel
           params:
             - name: filter
-              value: "body.ref in ['refs/heads/main', 'refs/heads/webhook-test']"
+              value: "body.ref in ['refs/heads/main', 'refs/heads/develop']"
 
       bindings:
         - ref: website-trigger-binding
