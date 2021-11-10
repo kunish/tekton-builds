@@ -35,6 +35,7 @@ spec:
           value: "true"
       script: |
         #! /usr/bin/env sh
+        set -e
         apk add git
         yarn install
         yarn semantic-release

@@ -8,6 +8,7 @@ spec:
   params:
     - name: git-repo-url
     - name: git-ref
+    - name: git-branch
 
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
@@ -25,6 +26,8 @@ spec:
             value: $(tt.params.git-repo-url)
           - name: git-ref
             value: $(tt.params.git-ref)
+          - name: git-branch
+            value: $(tt.params.git-branch)
 
         workspaces:
           - name: website

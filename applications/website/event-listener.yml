@@ -23,8 +23,14 @@ spec:
           params:
             - name: filter
               value: "body.ref in ['refs/heads/main', 'refs/heads/develop']"
+            - name: overlays
+              value:
+                - key: git-branch
+                  expression: "body.ref.split('/')[2]"
 
       bindings:
+        - name: git-branch
+          value: $(extensions.git-branch)
         - ref: website-trigger-binding
 
       template:
