@@ -31,8 +31,11 @@ spec:
             secretKeyRef:
               name: $(params.github-token-secret)
               key: $(params.github-token-secret-key)
+        - name: CI
+          value: "true"
       script: |
+        #! /usr/bin/env sh
         apk add git
         yarn install
         yarn semantic-release
-        node -e 'process.stdout.write(require("./package.json").version)' | tee $(results.version)
+        node -e 'process.stdout.write(require("./package.json").version)' | tee $(results.version.path)

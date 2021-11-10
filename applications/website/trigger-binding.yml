@@ -8,3 +8,5 @@ spec:
   params:
     - name: git-repo-url
       value: $(body.repository.clone_url)
+    - name: git-ref
+      value: $(body.ref)
