@@ -23,7 +23,7 @@ spec:
 
   steps:
     - name: semantic-release
-      image: node:alpine
+      image: node:lts-alpine
       workingDir: $(workspaces.source.path)
       env:
         - name: GH_TOKEN
@@ -32,6 +32,7 @@ spec:
               name: $(params.github-token-secret)
               key: $(params.github-token-secret-key)
       script: |
+        apk add git
         yarn install
         yarn semantic-release
         node -e 'process.stdout.write(require("./package.json").version)' | tee $(results.version)
