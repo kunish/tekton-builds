@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: environment-estimate
+  namespace: tekton-builds
+
+spec:
+  params:
+    - name: git-branch
+      description: name of the git branch to estimate
+    - name: version
+      description: value of the version to release
+
+  results:
+    - name: image-tag
+      description: value of the docker image tag
+
+  steps:
+    - name: environment-estimate
+      image: node:lts-alpine
+      script: |
+        #! /usr/bin/env node
+        const tagEnvMap = {
+          main: "$(params.version)",
+          develop: "staging",
+        };
+
+        const tag = tagEnvMap["$(params.git-branch)"] || "$(params.version)";
+
+        require("fs").writeFileSync("$(results.image-tag.path)", tag)

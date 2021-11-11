@@ -43,6 +43,17 @@ spec:
       runAfter:
         - git-clone
 
+    - name: environment-estimate
+      taskRef:
+        name: environment-estimate
+      params:
+        - name: git-branch
+          value: $(params.git-branch)
+        - name: version
+          value: $(tasks.semantic-release.results.version)
+      runAfter:
+        - semantic-release
+
     - name: build-container-image
       taskRef:
         name: kaniko
@@ -55,6 +66,6 @@ spec:
         - name: BUILDER_IMAGE
           value: gcr.io/kaniko-project/executor
         - name: IMAGE
-          value: ghcr.io/kunish/website:$(tasks.semantic-release.results.version)
+          value: ghcr.io/kunish/website:$(tasks.environment-estimate.results.image-tag)
       runAfter:
-        - semantic-release
+        - environment-estimate
