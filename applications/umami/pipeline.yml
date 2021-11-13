@@ -9,6 +9,7 @@ spec:
     - name: umami
     - name: github-ssh-credentials
     - name: regcred
+
   tasks:
     - name: git-clone
       taskRef:

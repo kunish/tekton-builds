@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
-  name: website-trigger-template
+  name: littlelink-trigger-template
   namespace: tekton-builds
 
 spec:
@@ -13,13 +13,13 @@ spec:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
-        generateName: website-pipeline-run-
+        generateName: littlelink-pipeline-run-
         namespace: tekton-builds
       spec:
         serviceAccountName: tekton-triggers-sa
 
         pipelineRef:
-          name: website-pipeline
+          name: littlelink-pipeline
         params:
           - name: git-repo-url
             value: $(tt.params.git-repo-url)
@@ -27,7 +27,7 @@ spec:
             value: $(tt.params.git-branch)
 
         workspaces:
-          - name: website
+          - name: littlelink
             volumeClaimTemplate:
               spec:
                 resources:

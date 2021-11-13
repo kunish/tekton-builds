@@ -1,0 +1,39 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: webhook-littlelink
+  namespace: tekton-builds
+
+spec:
+  serviceAccountName: tekton-triggers-sa
+
+  triggers:
+    - name: webhook-listener
+      interceptors:
+        - name: only triggers on push event
+          ref:
+            name: github
+          params:
+            - name: eventTypes
+              value: [push]
+
+        - name: only triggers on environment branches
+          ref:
+            name: cel
+          params:
+            - name: filter
+              value: "body.ref in ['refs/heads/main']"
+            - name: filter
+              value: "!body.head_commit.message.contains('[skip ci]')"
+            - name: overlays
+              value:
+                - key: git-branch
+                  expression: "body.ref.split('/')[2]"
+
+      bindings:
+        - name: git-branch
+          value: $(extensions.git-branch)
+        - ref: littlelink-trigger-binding
+
+      template:
+        ref: littlelink-trigger-template

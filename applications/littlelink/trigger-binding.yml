@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
-  name: website-trigger-binding
+  name: littlelink-trigger-binding
   namespace: tekton-builds
 
 spec:
