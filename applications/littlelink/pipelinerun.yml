@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: littlelink-pipelinerun-
+  namespace: tekton-builds
+
+spec:
+  pipelineRef:
+    name: littlelink-pipeline
+  workspaces:
+    - name: littlelink
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Mi
+    - name: github-ssh-credentials
+      secret:
+        secretName: github-ssh-credentials
+    - name: regcred
+      secret:
+        secretName: regcred

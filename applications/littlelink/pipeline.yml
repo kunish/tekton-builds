@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: littlelink-pipeline
+  namespace: tekton-builds
+
+spec:
+  workspaces:
+    - name: littlelink
+    - name: github-ssh-credentials
+    - name: regcred
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: git@github.com:kunish/littlelink.git
+      workspaces:
+        - name: output
+          workspace: littlelink
+        - name: ssh-directory
+          workspace: github-ssh-credentials
+
+    - name: kaniko-build
+      taskRef:
+        name: kaniko
+      params:
+        - name: BUILDER_IMAGE
+          value: gcr.io/kaniko-project/executor
+        - name: IMAGE
+          value: ghcr.io/kunish/littlelink
+      workspaces:
+        - name: source
+          workspace: littlelink
+        - name: dockerconfig
+          workspace: regcred
+      runAfter:
+        - git-clone
