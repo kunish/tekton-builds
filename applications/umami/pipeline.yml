@@ -30,7 +30,7 @@ spec:
         - name: BUILDER_IMAGE
           value: gcr.io/kaniko-project/executor
         - name: IMAGE
-          value: ghcr.io/techprober/umami
+          value: ghcr.io/kunish/umami
         - name: EXTRA_ARGS
           value:
             - "--build-arg=DATABASE_TYPE=mysql"
